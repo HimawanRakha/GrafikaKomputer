@@ -8,6 +8,11 @@ const OBJECTS = [
   { nama: "Bouncing ball", warna: "#9b59b6", data: "posisi + velocity (speedX, speedY)" },
   { nama: "Follow circle", warna: "#1abc9c", data: "mengikuti koordinat mouse tiap frame" },
   { nama: "Player", warna: "#e67e22", data: "posisi + speed, translasi keyboard" },
+  {
+    nama: "Shape buatan user",
+    warna: "#dd873c",
+    data: "kind + 2 titik hasil drag + warna dari color picker (default di samping)",
+  },
 ];
 
 const COMPARISON: [string, string, string][] = [
@@ -30,6 +35,10 @@ const CHECKLIST = [
   "Koordinat mouse tampil secara real-time di HUD canvas",
   "Challenge A–E terpenuhi: bounce, follow mouse, click to change color, keyboard movement, mouse coordinate",
   "Challenge tambahan: click to create circle, trail mode, multiple moving objects",
+  "Panel Shapes — user memilih sendiri primitive yang digambar: line, rectangle, circle, triangle, star",
+  "Panel Color — warna dipilih lewat hue slider atau color picker, bukan lagi palet tetap",
+  "Actions — Clear, Random, Animate, dan Reset",
+  "Panel Info — FPS dan frame time diukur dari selisih timestamp requestAnimationFrame, plus resolusi canvas",
 ];
 
 const QNA: [string, string][] = [
@@ -64,6 +73,14 @@ const QNA: [string, string][] = [
   [
     "Apa fungsi requestAnimationFrame()?",
     "Meminta browser memanggil ulang fungsi animate tepat sebelum repaint berikutnya, menghasilkan animation loop yang selaras dengan refresh rate layar.",
+  ],
+  [
+    "Bagaimana FPS dan frame time dihitung?",
+    "requestAnimationFrame mengirim timestamp ke fungsi animate. Selisih dua timestamp berturut-turut adalah frame time, dan FPS = 1000 / frame time. Angkanya dirata-ratakan lalu dikirim ke UI 4x per detik saja — meng-update state tiap frame justru memaksa 60 render per detik dan menurunkan FPS yang sedang diukur.",
+  ],
+  [
+    "Bagaimana satu bentuk bisa dibuat dari dua titik drag?",
+    "Titik saat mousedown dan titik saat mouse bergerak disimpan sebagai (x1, y1) dan (x2, y2). Rectangle dan triangle memakai kotak pembatas dua titik itu, sedangkan circle dan star memakai titik pertama sebagai center dan jaraknya sebagai radius.",
   ],
   [
     "Bagaimana keyboard bisa menggerakkan objek?",

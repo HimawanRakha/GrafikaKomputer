@@ -1,6 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import PlaygroundControls, { type Mode } from "./PlaygroundControls";
+import {
+  drawShapePreview,
+  drawUserShape,
+  hexToHue,
+  hslToHex,
+  randomShape,
+  type Tool,
+  type UserShape,
+} from "./shapes";
 
 const CANVAS_W = 960;
 const CANVAS_H = 600;
@@ -8,7 +18,15 @@ const CANVAS_H = 600;
 // Palet warna untuk bola & circle hasil klik (color cycling)
 const PALETTE = ["#9b59b6", "#e74c3c", "#2ecc71", "#f1c40f", "#3498db"];
 
-type Mode = "state" | "event";
+// How often the Info panel is refreshed. Pushing FPS into React state on every
+// frame would force ~60 re-renders per second and lower the very number we are
+// measuring, so the reading is batched instead.
+const INFO_INTERVAL_MS = 250;
+
+// How many shapes the Random action adds per click.
+const RANDOM_BATCH = 5;
+
+const DEFAULT_HUE = 28;
 
 interface Circle {
   x: number;
@@ -26,24 +44,6 @@ function isFormElement(target: EventTarget | null) {
   return target instanceof HTMLElement && ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
 }
 
-const btnClass =
-  "rounded-md border border-slate-700 bg-slate-800 px-3 py-1.5 text-xs font-medium text-slate-200 transition-colors hover:border-indigo-500 hover:bg-slate-700";
-
-function segClass(active: boolean) {
-  return `flex-1 rounded-md px-2 py-1.5 text-xs font-medium transition-colors ${
-    active ? "bg-indigo-500 text-white" : "text-slate-400 hover:text-slate-200"
-  }`;
-}
-
-function ControlCard({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
-      <h3 className="mb-3 text-sm font-semibold text-white">{title}</h3>
-      {children}
-    </div>
-  );
-}
-
 export default function GraphicsPlayground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -52,13 +52,19 @@ export default function GraphicsPlayground() {
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState(5);
   const [trail, setTrail] = useState(false);
-  const [circleCount, setCircleCount] = useState(0);
+  const [activeTool, setActiveTool] = useState<Tool>("demo");
+  const [hue, setHue] = useState(DEFAULT_HUE);
+  const [color, setColor] = useState(() => hslToHex(DEFAULT_HUE, 70, 55));
+  const [drawnCount, setDrawnCount] = useState(0);
+  const [frameStats, setFrameStats] = useState({ fps: 0, frameTime: 0 });
 
   // Disalin ke ref agar animation loop selalu membaca nilai terbaru tanpa stale closure.
   const modeRef = useRef(mode);
   const pausedRef = useRef(paused);
   const speedRef = useRef(speed);
   const trailRef = useRef(trail);
+  const activeToolRef = useRef(activeTool);
+  const colorRef = useRef(color);
 
   useEffect(() => {
     modeRef.current = mode;
@@ -72,9 +78,31 @@ export default function GraphicsPlayground() {
   useEffect(() => {
     trailRef.current = trail;
   }, [trail]);
+  useEffect(() => {
+    activeToolRef.current = activeTool;
+  }, [activeTool]);
+  useEffect(() => {
+    colorRef.current = color;
+  }, [color]);
 
-  // Jembatan imperatif supaya tombol HTML di luar effect bisa memanggil reset/clear.
-  const controlsApiRef = useRef<{ reset: () => void; clearCircles: () => void } | null>(null);
+  // Jembatan imperatif supaya tombol HTML di luar effect bisa memanggil aksi canvas.
+  const controlsApiRef = useRef<{
+    reset: () => void;
+    clearAll: () => void;
+    addRandomShapes: () => void;
+  } | null>(null);
+
+  // Slider hue dan color picker menulis ke state warna yang sama, dan keduanya
+  // saling menyesuaikan supaya posisi slider selalu mewakili warna aktif.
+  function handleHueChange(nextHue: number) {
+    setHue(nextHue);
+    setColor(hslToHex(nextHue, 70, 55));
+  }
+
+  function handleColorChange(nextColor: string) {
+    setColor(nextColor);
+    setHue(hexToHue(nextColor));
+  }
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -121,14 +149,34 @@ export default function GraphicsPlayground() {
 
     const clickedCircles: Circle[] = [];
 
+    // Bentuk yang digambar user lewat panel Shapes.
+    const userShapes: UserShape[] = [];
+    // Bentuk yang sedang di-drag; null ketika tidak ada drag berlangsung.
+    let draft: UserShape | null = null;
+
     const mouse = { x: 0, y: 0 };
     const keys: Record<string, boolean> = {};
     let colorIndex = 0;
     let rafId = 0;
 
+    // Keyboard hanya mengendalikan canvas ketika pointer berada di atasnya.
+    // Satu flag ini menggerbangi perekaman keys sekaligus preventDefault(),
+    // supaya di luar canvas tombol panah kembali men-scroll halaman seperti biasa.
+    let pointerOverCanvas = false;
+
+    // Akumulator pengukuran frame untuk panel Info.
+    let lastTime = performance.now();
+    let frameTimeAccum = 0;
+    let frameCount = 0;
+    let infoAccum = 0;
+
     // ------------------------------------------------------------
     // RESET / CLEAR — dipanggil dari tombol UI maupun tombol keyboard
     // ------------------------------------------------------------
+    function syncDrawnCount() {
+      setDrawnCount(userShapes.length + clickedCircles.length);
+    }
+
     function resetScene() {
       movingBall.x = ballInitial.x;
       movingBall.y = ballInitial.y;
@@ -138,12 +186,28 @@ export default function GraphicsPlayground() {
       player.y = playerInitial.y;
     }
 
-    function clearClickedCircles() {
+    function clearAll() {
+      userShapes.length = 0;
       clickedCircles.length = 0;
-      setCircleCount(0);
+      draft = null;
+      syncDrawnCount();
     }
 
-    controlsApiRef.current = { reset: resetScene, clearCircles: clearClickedCircles };
+    function addRandomShapes() {
+      for (let i = 0; i < RANDOM_BATCH; i++) {
+        userShapes.push(randomShape(CANVAS_W, CANVAS_H));
+      }
+      syncDrawnCount();
+    }
+
+    controlsApiRef.current = { reset: resetScene, clearAll, addRandomShapes };
+
+    // Melepas semua tombol yang sedang tercatat ditekan. Dipakai ketika window
+    // kehilangan fokus atau pointer meninggalkan canvas — tanpa ini keyup tidak
+    // pernah sampai dan player terus bergerak sendiri.
+    function releaseAllKeys() {
+      for (const key of Object.keys(keys)) keys[key] = false;
+    }
 
     // ------------------------------------------------------------
     // DRAW
@@ -221,6 +285,9 @@ export default function GraphicsPlayground() {
       drawCircleObject(movingBall);
       drawCircleObject(followCircle);
       for (const c of clickedCircles) drawCircleObject(c);
+      // Bentuk buatan user digambar sebelum player & HUD supaya keduanya tetap terbaca.
+      for (const shape of userShapes) drawUserShape(ctx, shape);
+      if (draft) drawShapePreview(ctx, draft);
       drawPlayer();
       drawHUD();
     }
@@ -267,20 +334,96 @@ export default function GraphicsPlayground() {
       followCircle.y = mouse.y;
     }
 
+    // Panel Info diperbarui maksimal 4x per detik, bukan tiap frame.
+    function updateFrameStats(delta: number) {
+      frameTimeAccum += delta;
+      frameCount += 1;
+      infoAccum += delta;
+
+      if (infoAccum < INFO_INTERVAL_MS || frameCount === 0) return;
+
+      const average = frameTimeAccum / frameCount;
+      setFrameStats({
+        fps: average > 0 ? Math.round(1000 / average) : 0,
+        frameTime: average,
+      });
+      frameTimeAccum = 0;
+      frameCount = 0;
+      infoAccum = 0;
+    }
+
     // ------------------------------------------------------------
     // INPUT
     // ------------------------------------------------------------
-    function onMouseMove(event: MouseEvent) {
+    // Menerjemahkan koordinat layar ke koordinat internal canvas. Diperlukan
+    // karena canvas ditampilkan responsif, jadi ukuran CSS-nya berbeda dari
+    // ukuran drawing buffer-nya.
+    function toCanvasCoords(event: MouseEvent) {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = (event.clientX - rect.left) * (canvas.width / rect.width);
-      mouse.y = (event.clientY - rect.top) * (canvas.height / rect.height);
+      return {
+        x: (event.clientX - rect.left) * (canvas.width / rect.width),
+        y: (event.clientY - rect.top) * (canvas.height / rect.height),
+      };
+    }
+
+    function onMouseMove(event: MouseEvent) {
+      const point = toCanvasCoords(event);
+      mouse.x = point.x;
+      mouse.y = point.y;
+
+      // Ujung kedua bentuk mengikuti pointer selama drag berlangsung.
+      if (draft) {
+        draft.x2 = point.x;
+        draft.y2 = point.y;
+      }
+    }
+
+    function onMouseDown() {
+      const tool = activeToolRef.current;
+      if (tool === "demo") return;
+
+      draft = {
+        kind: tool,
+        x1: mouse.x,
+        y1: mouse.y,
+        x2: mouse.x,
+        y2: mouse.y,
+        color: colorRef.current,
+      };
+    }
+
+    // Dipasang di window, bukan canvas, supaya melepas tombol mouse di luar
+    // canvas tetap menyelesaikan bentuk dan tidak meninggalkan draft menggantung.
+    function onMouseUp() {
+      if (!draft) return;
+
+      // Klik tanpa geser tidak menghasilkan bentuk yang terlihat, jadi dibuang.
+      const dragged = Math.hypot(draft.x2 - draft.x1, draft.y2 - draft.y1) > 3;
+      if (dragged) {
+        userShapes.push(draft);
+        syncDrawnCount();
+      }
+      draft = null;
+    }
+
+    function onMouseEnter() {
+      pointerOverCanvas = true;
+    }
+
+    function onMouseLeave() {
+      pointerOverCanvas = false;
+      releaseAllKeys();
     }
 
     function onClick() {
+      // Dengan tool gambar aktif, click tetap menyala setelah mouseup. Tanpa
+      // guard ini setiap selesai menggambar akan ikut tercipta circle liar.
+      if (activeToolRef.current !== "demo") return;
+
       colorIndex = (colorIndex + 1) % PALETTE.length;
       movingBall.color = PALETTE[colorIndex];
       clickedCircles.push({ x: mouse.x, y: mouse.y, radius: 14, color: PALETTE[colorIndex] });
-      setCircleCount(clickedCircles.length);
+      syncDrawnCount();
     }
 
     function onKeyDown(event: KeyboardEvent) {
@@ -288,9 +431,10 @@ export default function GraphicsPlayground() {
       const isArrowKey = controlledKeys.includes(event.key);
 
       // Arrow keys dilewati saat fokus ada di form control (mis. speed slider)
-      // supaya perilaku native-nya (menggeser slider) tidak dibajak. Tombol
-      // R/C/P tetap berfungsi di mana pun karena tidak berkonflik dengan kontrol lain.
-      if (isArrowKey && !isFormElement(event.target)) {
+      // supaya perilaku native-nya (menggeser slider) tidak dibajak, dan saat
+      // pointer berada di luar canvas supaya halaman tetap bisa di-scroll.
+      // Tombol R/C/P tetap berfungsi di mana pun karena tidak berkonflik.
+      if (isArrowKey && pointerOverCanvas && !isFormElement(event.target)) {
         event.preventDefault();
 
         // State-based: keydown hanya mencatat status tombol.
@@ -324,14 +468,23 @@ export default function GraphicsPlayground() {
     }
 
     canvas.addEventListener("mousemove", onMouseMove);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mouseenter", onMouseEnter);
+    canvas.addEventListener("mouseleave", onMouseLeave);
     canvas.addEventListener("click", onClick);
+    window.addEventListener("mouseup", onMouseUp);
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
+    // Alt+Tab saat tombol ditahan membuat keyup tidak pernah sampai ke halaman.
+    window.addEventListener("blur", releaseAllKeys);
 
     // ------------------------------------------------------------
     // ANIMATION LOOP
     // ------------------------------------------------------------
-    function animate() {
+    function animate(time: number) {
+      updateFrameStats(time - lastTime);
+      lastTime = time;
+
       if (!pausedRef.current) {
         updateMovingBall();
         updateSmallObjects();
@@ -341,14 +494,19 @@ export default function GraphicsPlayground() {
       drawScene();
       rafId = requestAnimationFrame(animate);
     }
-    animate();
+    rafId = requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(rafId);
       canvas.removeEventListener("mousemove", onMouseMove);
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mouseenter", onMouseEnter);
+      canvas.removeEventListener("mouseleave", onMouseLeave);
       canvas.removeEventListener("click", onClick);
+      window.removeEventListener("mouseup", onMouseUp);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("blur", releaseAllKeys);
     };
     }
   }, []);
@@ -362,78 +520,42 @@ export default function GraphicsPlayground() {
             width={CANVAS_W}
             height={CANVAS_H}
             className="block h-auto w-full rounded-xl border border-slate-700 bg-white"
-            style={{ aspectRatio: `${CANVAS_W} / ${CANVAS_H}` }}
+            style={{
+              aspectRatio: `${CANVAS_W} / ${CANVAS_H}`,
+              cursor: activeTool === "demo" ? "pointer" : "crosshair",
+            }}
           />
         </div>
         <p className="mt-3 text-center text-xs text-slate-500">
-          Arrow keys / WASD untuk menggerakkan kotak oranye &middot; klik canvas untuk ganti warna
-          bola &amp; membuat circle baru.
+          {activeTool === "demo"
+            ? "Klik canvas untuk ganti warna bola & membuat circle · arahkan pointer ke canvas lalu pakai Arrow keys / WASD untuk menggerakkan kotak oranye."
+            : "Drag di canvas untuk menggambar · pilih tool Demo untuk kembali ke interaksi klik."}
         </p>
       </div>
 
-      <aside className="space-y-4">
-        <ControlCard title="Mode translasi keyboard">
-          <div className="flex gap-1 rounded-lg border border-slate-700 bg-slate-800/60 p-1">
-            <button className={segClass(mode === "state")} onClick={() => setMode("state")}>
-              State-based
-            </button>
-            <button className={segClass(mode === "event")} onClick={() => setMode("event")}>
-              Event-based
-            </button>
-          </div>
-          <p className="mt-2 text-xs leading-relaxed text-slate-500">
-            {mode === "state"
-              ? "keydown/keyup hanya mengubah keys[...]. Translasi dibaca setiap frame di updatePlayer()."
-              : "keydown langsung mengubah posisi player. Tahan tombol panah dan rasakan delay/rate keyboard repeat browser."}
-          </p>
-        </ControlCard>
-
-        <ControlCard title="Kontrol">
-          <div className="flex gap-2">
-            <button className={btnClass} onClick={() => setPaused((p) => !p)}>
-              {paused ? "Resume (P)" : "Pause (P)"}
-            </button>
-            <button className={btnClass} onClick={() => controlsApiRef.current?.reset()}>
-              Reset (R)
-            </button>
-          </div>
-
-          <label className="mt-4 block text-xs text-slate-400">
-            Speed player: <span className="text-slate-200">{speed}</span>
-            <input
-              type="range"
-              min={1}
-              max={10}
-              value={speed}
-              onChange={(event) => setSpeed(Number(event.target.value))}
-              onPointerUp={(event) => event.currentTarget.blur()}
-              className="mt-1 w-full accent-indigo-500"
-            />
-          </label>
-
-          <label className="mt-4 flex items-center gap-2 text-xs text-slate-400">
-            <input type="checkbox" checked={trail} onChange={(event) => setTrail(event.target.checked)} />
-            Trail mode (canvas tidak di-clear)
-          </label>
-
-          <button
-            className={`${btnClass} mt-4 w-full`}
-            onClick={() => controlsApiRef.current?.clearCircles()}
-          >
-            Hapus circle hasil klik ({circleCount})
-          </button>
-        </ControlCard>
-
-        <ControlCard title="Keterangan">
-          <ul className="space-y-1.5 text-xs text-slate-400">
-            <li>Kotak biru, garis merah, lingkaran hijau, segitiga oranye &mdash; primitive statis.</li>
-            <li>Bola ungu memantul di dalam batas canvas (velocity + boundary check).</li>
-            <li>Circle teal mengikuti posisi mouse.</li>
-            <li>Circle kecil di bagian bawah &mdash; beberapa objek bergerak independen.</li>
-            <li>Kotak oranye adalah player yang dikendalikan keyboard.</li>
-          </ul>
-        </ControlCard>
-      </aside>
+      <PlaygroundControls
+        activeTool={activeTool}
+        onToolChange={setActiveTool}
+        color={color}
+        hue={hue}
+        onHueChange={handleHueChange}
+        onColorChange={handleColorChange}
+        onClear={() => controlsApiRef.current?.clearAll()}
+        onRandom={() => controlsApiRef.current?.addRandomShapes()}
+        onReset={() => controlsApiRef.current?.reset()}
+        animating={!paused}
+        onToggleAnimate={() => setPaused((p) => !p)}
+        drawnCount={drawnCount}
+        fps={frameStats.fps}
+        frameTime={frameStats.frameTime}
+        resolution={`${CANVAS_W} × ${CANVAS_H}`}
+        mode={mode}
+        onModeChange={setMode}
+        speed={speed}
+        onSpeedChange={setSpeed}
+        trail={trail}
+        onTrailChange={setTrail}
+      />
     </div>
   );
 }
