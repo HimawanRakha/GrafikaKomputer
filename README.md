@@ -1,34 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Praktikum Grafika Komputer — EF234504
 
-## Getting Started
+Portal praktikum interaktif mata kuliah Grafika Komputer, Departemen Teknik Informatika ITS.
+Setiap pertemuan praktikum dirender sebagai halaman tersendiri, dan daftarnya bertambah
+seiring tugas baru dikerjakan.
 
-First, run the development server:
+Dibuat oleh Himawan Rakha Bhadra dan Frenaldy.
+
+## Menjalankan
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Perintah lain:
 
-## Learn More
+| Perintah | Kegunaan |
+| --- | --- |
+| `npm run build` | Build produksi |
+| `npm run lint` | ESLint |
+| `npx tsc --noEmit` | Typecheck |
 
-To learn more about Next.js, take a look at the following resources:
+## Struktur
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+app/
+  page.tsx                  dashboard, menampilkan seluruh kartu pertemuan
+  pertemuan/[slug]/page.tsx halaman detail satu pertemuan
+components/
+  layout/Sidebar.tsx        navigasi
+  praktikum/registry.tsx    peta slug -> komponen praktikum
+  praktikum/pertemuan-1/    implementasi pertemuan 1
+  ui/Section.tsx            kartu bersection judul, dipakai ulang
+data/
+  praktikum.ts              metadata seluruh pertemuan
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pola registry
 
-## Deploy on Vercel
+Metadata dan implementasi sengaja dipisah supaya menambah pertemuan baru tidak perlu
+menyentuh routing sama sekali:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+data/praktikum.ts   ──┐
+                      ├──> app/pertemuan/[slug]/page.tsx  ──> halaman jadi
+registry.tsx        ──┘
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`data/praktikum.ts` adalah sumber kebenaran tunggal. Dashboard dan sidebar sama-sama
+membacanya, jadi navigasi ikut ter-update sendiri.
+
+### Menambah pertemuan baru
+
+1. Tambahkan entri di `data/praktikum.ts` dengan `slug` baru dan `status: "available"`.
+2. Buat komponennya di `components/praktikum/<slug>/`.
+3. Daftarkan di `components/praktikum/registry.tsx`.
+
+Selama sebuah entri berstatus `"coming-soon"`, kartunya tampil tetapi tidak bisa diklik,
+dan belum perlu didaftarkan di registry.
+
+## Daftar pertemuan
+
+### Pertemuan 1 — Graphics Playground
+
+Mini aplikasi grafika interaktif di atas HTML Canvas 2D.
+
+- **Shapes** — pilih primitive lalu drag di canvas: line, rectangle, circle, triangle, star.
+- **Color** — warna dipilih lewat hue slider atau color picker.
+- **Actions** — Clear, Random, Animate, Reset.
+- **Info** — FPS dan frame time diukur dari selisih timestamp `requestAnimationFrame`,
+  plus resolusi canvas.
+- **Scene demo** — bola memantul di batas canvas, circle yang mengikuti mouse, beberapa
+  objek bergerak independen, player yang digerakkan Arrow keys/WASD, dan koordinat mouse
+  real-time di HUD. Aktif saat tool `Demo` dipilih.
+- Mode translasi keyboard **state-based** dan **event-based** bisa ditukar untuk
+  membandingkan keduanya secara langsung.
+
+Catatan: keyboard hanya mengendalikan canvas ketika pointer berada di atasnya, supaya
+tombol panah tetap bisa dipakai men-scroll halaman.
+
+Kode terkait:
+
+- `components/praktikum/pertemuan-1/GraphicsPlayground.tsx` — state, input, animation loop
+- `components/praktikum/pertemuan-1/shapes.ts` — fungsi menggambar murni
+- `components/praktikum/pertemuan-1/PlaygroundControls.tsx` — panel kontrol
+- `components/praktikum/pertemuan-1/InfoSection.tsx` — catatan konsep dan checklist
+
+### Pertemuan 2
+
+Belum tersedia.
