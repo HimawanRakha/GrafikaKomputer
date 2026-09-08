@@ -26,11 +26,11 @@ export const praktikumList: PraktikumMeta[] = [
   {
     slug: "pertemuan-2",
     pertemuan: 2,
-    judul: "Belum tersedia",
-    topik: "Menunggu modul praktikum berikutnya",
-    deskripsi: "Materi pertemuan ini belum dirilis. Halaman akan muncul di sini begitu praktikumnya dikerjakan.",
-    tags: ["Segera"],
-    status: "coming-soon",
+    judul: "WebGL Primitive Playground",
+    topik: "WebGL Fundamental",
+    deskripsi: "Pipeline WebGL2 dari nol: vertex data disiapkan sebagai Float32Array, diunggah ke buffer GPU, dihubungkan ke attribute, lalu digambar lewat shader sendiri. Berisi triangle, rectangle, star, dan point grid dengan vertex color yang diinterpolasi, tiga object yang memantul di batas NDC dengan arah dan kecepatan berbeda, kontrol keyboard state-based, serta primitive baru yang muncul di posisi klik.",
+    tags: ["WebGL2", "Buffer & Attribute", "Vertex & Fragment Shader", "NDC", "Vertex Color", "Draw Mode"],
+    status: "available",
   },
 ];
 
