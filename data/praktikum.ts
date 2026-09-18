@@ -32,6 +32,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["WebGL2", "Buffer & Attribute", "Vertex & Fragment Shader", "NDC", "Vertex Color", "Draw Mode"],
     status: "available",
   },
+  {
+    slug: "pertemuan-3",
+    pertemuan: 3,
+    judul: "Interactive Transformation Playground",
+    topik: "Transformation & Coordinate System",
+    deskripsi: "Model Matrix di atas WebGL2: geometry tetap di local coordinate sementara translation, rotation, dan uniform/non-uniform scaling digabung lewat matrix multiplication dan dikirim sebagai uniform mat3. Dua object berbagi satu geometry triangle, satu object beranimasi otomatis, sebuah pintu berengsel mendemonstrasikan pivot, kontrol keyboard state-based dengan deltaTime, dua urutan transformasi yang bisa dibandingkan langsung, serta HUD posisi/rotasi/skala.",
+    tags: ["WebGL2", "Transformation Matrix", "Local & World Space", "Matrix Composition", "Pivot", "Delta Time"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {
