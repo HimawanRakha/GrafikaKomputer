@@ -34,6 +34,8 @@ components/
   praktikum/registry.tsx    peta slug -> komponen praktikum
   praktikum/pertemuan-1/    implementasi pertemuan 1
   praktikum/pertemuan-2/    implementasi pertemuan 2
+  praktikum/pertemuan-3/    implementasi pertemuan 3
+  praktikum/pertemuan-4/    implementasi pertemuan 4
   ui/Section.tsx            kartu bersection judul, dipakai ulang
   ui/controls.tsx           ControlCard & style tombol panel, dipakai ulang
 data/
@@ -182,3 +184,111 @@ seperti ini:
 
 Seluruh tahap pipeline pada modul tetap ada dan dapat ditelusuri satu per satu; hanya
 pembagian berkasnya yang mengikuti konvensi portal.
+
+### Pertemuan 4 — Rotating 3D Cube Camera Playground
+
+**Frenaldy Bestabba Hasugian — 5025241156**
+**Himawan Rakha Bhadra — _(NRP menyusul)_**
+
+Rantai transformasi dilengkapi sampai ujung: Pertemuan 3 berhenti di Model Matrix, di sini
+View Matrix dan Projection Matrix ditambahkan sehingga urutan Local → World → Camera →
+Clip → NDC → Screen lengkap seluruhnya.
+
+#### Scene
+
+Tiga cube 3D, masing-masing 36 vertex `vec3` dengan warna berbeda per sisi. Ketiganya
+berbagi **satu** buffer GPU dan hanya dibedakan oleh Model Matrix serta `u_tint`, meneruskan
+gagasan reuse geometry dari Pertemuan 3.
+
+| Cube | Posisi Z | Urutan gambar |
+| --- | --- | --- |
+| Cube depan | +1.0 | pertama (terdekat) |
+| Cube tengah | −1.5 | kedua |
+| Cube belakang | −4.0 | terakhir (terjauh) |
+
+Urutan dekat → jauh itu disengaja. Dengan depth test aktif hasilnya benar apa pun urutannya,
+tetapi begitu depth test dimatikan, cube yang digambar terakhir memenangkan setiap pixel yang
+bertumpuk — kegagalan painter's algorithm yang justru ingin diperlihatkan.
+
+#### Kontrol
+
+| Tombol | Fungsi |
+| --- | --- |
+| `Arrow` | Kamera X/Y (mode bebas) atau azimuth/elevation (mode orbit) |
+| `W` / `S` | Kamera Z (mode bebas) atau radius orbit |
+| `P` | Ganti proyeksi perspective ↔ orthographic |
+| `[` / `]` | FOV turun / naik, kontinu, dibatasi 15°–120° |
+| `1` / `2` / `3` | Preset FOV 35° / 60° / 90° |
+| `N` | Siklus preset near/far plane |
+| `D` | Depth test ON/OFF |
+| `O` | Orbit camera ON/OFF |
+| `Space` | Pause rotasi cube (kamera tetap bisa digerakkan) |
+| `R` | Reset kamera, proyeksi, FOV, near/far, dan depth test |
+
+Keyboard hanya aktif saat canvas di-hover atau difokus dengan Tab, supaya tombol panah tetap
+bisa men-scroll halaman di tempat lain. Seluruh gerakan kamera bersifat **state-based** dan
+diskalakan `deltaTime`, jadi kecepatannya sama di layar 60Hz maupun 144Hz.
+
+#### Proyeksi dan preset
+
+Tinggi box orthographic dihitung dari tinggi frustum perspective pada jarak target
+(`tan(fov/2) × jarak`). Tanpa penyamaan itu, menekan `P` membuat scene melompat besar-kecil
+dan perbedaan yang sebenarnya — hilangnya konvergensi perspektif — tertutupi perubahan skala.
+
+| Preset near/far | Nilai | Tujuan |
+| --- | --- | --- |
+| Longgar | 0.1 / 100 | Semua cube terlihat utuh |
+| Sedang | 1 / 12 | Rentang wajar, depth buffer lebih presisi |
+| Memotong | 3.5 / 7.5 | Cube depan teriris near plane, cube belakang hilang di far plane |
+
+Aspect ratio dibaca ulang dari **drawing buffer** setiap frame, bukan dari ukuran CSS, lalu
+dimasukkan ke projection matrix. Panel kanan menyediakan preset 21:9 / 16:10 / 4:3 / 1:1 untuk
+membuktikan cube tetap proporsional saat canvas berubah bentuk.
+
+#### Challenge yang dikerjakan
+
+- **Orbit camera** (`O`) — posisi kamera dihitung sebagai titik pada bola di sekitar target:
+  `x = r·cos(el)·sin(az)`, `y = r·sin(el)`, `z = r·cos(el)·cos(az)`. Saat mode dinyalakan,
+  azimuth/elevation/radius dibaca balik dari posisi kamera bebas sehingga sudut pandang tidak
+  melompat. Elevation dibatasi ±85° supaya `up` tidak pernah sejajar arah pandang.
+- **Preset FOV 35° / 60° / 90°** (`1` / `2` / `3`).
+- **Tiga cube pada depth berbeda** — lihat tabel scene di atas.
+
+#### Kode terkait
+
+| File | Isi |
+| --- | --- |
+| `components/praktikum/pertemuan-4/webgl/math3d.ts` | Mat4 column-major, `perspective`, `orthographic`, `lookAt`, helper Vec3 |
+| `components/praktikum/pertemuan-4/webgl/scene.ts` | 36 vertex cube, warna per sisi, tiga instance, state kamera, preset |
+| `components/praktikum/pertemuan-4/webgl/shaders.ts` | GLSL dengan `u_model`, `u_view`, `u_projection` terpisah |
+| `components/praktikum/pertemuan-4/webgl/glUtils.ts` | compile, link, mesh dua buffer, draw call |
+| `components/praktikum/pertemuan-4/CameraPlayground.tsx` | context, input, resize, rendering loop |
+| `components/praktikum/pertemuan-4/PlaygroundControls.tsx` | panel kontrol dan HUD |
+| `components/praktikum/pertemuan-4/InfoSection.tsx` | catatan konsep dan checklist |
+
+Padanan berkas yang diminta modul: `math3d.js` → `webgl/math3d.ts`, `main.js` → sisa isi
+`webgl/` dan `CameraPlayground.tsx`, `index.html` → `app/pertemuan/[slug]/page.tsx`,
+`style.css` → `app/globals.css` dan utility Tailwind.
+
+#### Catatan hasil pengujian
+
+Diuji di Chromium lewat dev server, seluruh kontrol ditekan satu per satu:
+
+- Perspective → orthographic: ketiga cube berubah menjadi berukuran sama persis meski
+  kedalamannya berbeda, dan skalanya tidak melompat saat pergantian.
+- Depth test OFF: selain cube belakang menimpa cube depan, sisi belakang tiap cube juga
+  menimpa sisi depannya sendiri — bukti bahwa tanpa depth buffer urutan draw menentukan
+  segalanya, bahkan di dalam satu object.
+- Preset near/far "memotong": cube depan teriris rata oleh near plane sampai bagian dalamnya
+  terlihat, cube belakang hilang sepenuhnya di far plane.
+- Orbit camera: menahan `ArrowRight` 1,2 detik menambah azimuth 66° (≈ 55°/detik sesuai
+  konstanta), radius tetap di 6.11 — sama dengan jarak kamera bebas sebelumnya, jadi
+  pergantian mode tidak memindahkan sudut pandang.
+- Aspect ratio 1:1: canvas menjadi persegi, cube tetap proporsional, yang menyempit hanya
+  bidang pandang horizontal.
+- Matematika matrix diverifikasi numerik terpisah: near/far dipetakan ke NDC ∓1, `w` membawa
+  −z pada perspective tetapi tetap 1 pada orthographic, `lookAt` menempatkan eye di origin
+  camera space, dan kasus degenerate (kamera tepat di atas target) tidak menghasilkan NaN.
+- Console tidak menunjukkan error maupun warning WebGL pada seluruh pengujian.
+
+Screenshot tampilan aplikasi ada di [`docs/pertemuan-4/`](docs/pertemuan-4/).

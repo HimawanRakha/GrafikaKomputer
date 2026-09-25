@@ -41,6 +41,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["WebGL2", "Transformation Matrix", "Local & World Space", "Matrix Composition", "Pivot", "Delta Time"],
     status: "available",
   },
+  {
+    slug: "pertemuan-4",
+    pertemuan: 4,
+    judul: "Rotating 3D Cube Camera Playground",
+    topik: "Camera, Projection & 3D",
+    deskripsi: "Rantai Model → View → Projection lengkap di atas WebGL2. Tiga cube 36 vertex dengan warna per sisi berbagi satu buffer GPU dan berputar otomatis lewat Model Matrix 4×4, sementara kamera dengan position/target/up dapat digerakkan bebas maupun mengorbit target. Perspective dan orthographic projection dapat ditukar saat runtime, lengkap dengan kontrol FOV, preset near/far yang memotong geometry, depth test yang bisa dimatikan untuk memperlihatkan kegagalan painter's algorithm, serta aspect ratio yang dihitung ulang tiap frame dari drawing buffer.",
+    tags: ["WebGL2", "View Matrix & lookAt", "Perspective & Orthographic", "FOV & Clipping Plane", "Depth Buffer", "Orbit Camera"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {
