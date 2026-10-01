@@ -50,6 +50,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["WebGL2", "View Matrix & lookAt", "Perspective & Orthographic", "FOV & Clipping Plane", "Depth Buffer", "Orbit Camera"],
     status: "available",
   },
+  {
+    slug: "pertemuan-5",
+    pertemuan: 5,
+    judul: "Textured and Lit Cube Playground",
+    topik: "Lighting, Shading & Texture pada WebGL",
+    deskripsi: "Cube dari Pertemuan 4 diberi permukaan: normal per-face maupun per-vertex yang bisa ditukar saat runtime (flat vs smooth shading), Normal Matrix untuk menjaga lighting benar di bawah scale non-uniform, model ambient + diffuse + specular sederhana lewat point light yang bisa digerakkan, serta texture checkerboard procedural dengan filtering dan wrapping yang bisa dibandingkan langsung.",
+    tags: ["WebGL2", "Normal & Normal Matrix", "Ambient/Diffuse/Specular", "UV & Texture Sampling", "Filtering & Wrapping", "Delta Time"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {
