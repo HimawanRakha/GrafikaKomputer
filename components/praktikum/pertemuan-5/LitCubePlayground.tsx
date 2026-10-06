@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import PlaygroundControls from "./PlaygroundControls";
 import {
   applyFiltering,
-  applyWrapping,
+  applyWrapping,  
   bindCubeMesh,
   createCheckerTexture,
   createCubeMesh,

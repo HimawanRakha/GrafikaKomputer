@@ -59,6 +59,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["WebGL2", "Normal & Normal Matrix", "Ambient/Diffuse/Specular", "UV & Texture Sampling", "Filtering & Wrapping", "Delta Time"],
     status: "available",
   },
+  {
+    slug: "pertemuan-6",
+    pertemuan: 6,
+    judul: "Three.js Mini Scene",
+    topik: "Scene Graph, Material, Lighting & Shadow dengan Three.js",
+    deskripsi: "Pindah dari WebGL manual ke Three.js: scene graph berisi box, sphere, torus knot, cone, dan galeri empat material di atas ground, diterangi AmbientLight dan DirectionalLight yang menghasilkan shadow map. Animasi memakai delta time dari THREE.Clock, renderer menyesuaikan ukuran dan projection saat di-resize, dan HUD menampilkan FPS, draw calls, serta triangles. Semua delapan challenge dikerjakan, dari OrthographicCamera, lampu yang mengorbit, tiga tingkat kualitas shadow, sampai kontrol object lewat keyboard.",
+    tags: ["Three.js", "Scene Graph", "Material Gallery", "Shadow Map", "Orthographic Camera", "Delta Time"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {

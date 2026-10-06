@@ -36,6 +36,8 @@ components/
   praktikum/pertemuan-2/    implementasi pertemuan 2
   praktikum/pertemuan-3/    implementasi pertemuan 3
   praktikum/pertemuan-4/    implementasi pertemuan 4
+  praktikum/pertemuan-5/    implementasi pertemuan 5
+  praktikum/pertemuan-6/    halaman portal pertemuan 6 (scene dari tugas-6-threejs/)
   ui/Section.tsx            kartu bersection judul, dipakai ulang
   ui/controls.tsx           ControlCard & style tombol panel, dipakai ulang
 data/
@@ -292,3 +294,22 @@ Diuji di Chromium lewat dev server, seluruh kontrol ditekan satu per satu:
 - Console tidak menunjukkan error maupun warning WebGL pada seluruh pengujian.
 
 Screenshot tampilan aplikasi ada di [`docs/pertemuan-4/`](docs/pertemuan-4/).
+
+### Pertemuan 6 — Three.js Mini Scene
+
+Tugas ini dikumpulkan sebagai project Vite tersendiri di folder
+[`tugas-6-threejs/`](tugas-6-threejs/), karena modul meminta struktur `index.html`, `src/`,
+`package.json`, dan `npm run dev` yang berjalan. Dokumentasi lengkapnya ada di
+[`tugas-6-threejs/README.md`](tugas-6-threejs/README.md).
+
+```bash
+cd tugas-6-threejs
+npm install
+npm run dev
+```
+
+Halaman `/pertemuan/pertemuan-6` di portal ini mengimpor **file scene yang sama**
+(`tugas-6-threejs/src/scene.js`) lewat `createMiniScene(canvas, options)`, jadi kode yang
+dikumpulkan dan yang tampil di portal tidak pernah berbeda. Karena CI hanya menjalankan
+`npm ci` di root, `three` juga tercantum di `package.json` root dengan versi yang sama
+(dipin ke `0.182.0`; alasannya ada di README tugas 6).
