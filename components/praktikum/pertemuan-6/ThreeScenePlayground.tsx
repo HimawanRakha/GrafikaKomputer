@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-// The scene itself lives in the standalone Vite project, so the code that is
-// submitted and the code shown in the portal are one and the same file.
-import { createMiniScene } from "@/tugas-6-threejs/src/scene.js";
+import { createMiniScene } from "./webgl/scene.js";
 import PlaygroundControls from "./PlaygroundControls";
 
 /** Snapshot the scene sends 10x per second (see buildInfo() in scene.js). */
@@ -113,9 +111,8 @@ export default function ThreeScenePlayground() {
           className="block aspect-[16/10] w-full rounded-xl border border-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
         />
         <p className="mt-3 text-center text-xs text-slate-500">
-          Arahkan pointer ke canvas atau fokuskan dengan Tab, lalu pakai keyboard &middot; versi
-          layar penuh ada di folder <code className="text-slate-400">tugas-6-threejs/</code> (
-          <code className="text-slate-400">npm run dev</code>).
+          Arahkan pointer ke canvas atau fokuskan dengan Tab, lalu pakai keyboard untuk
+          mengendalikan object, kamera, lampu, dan shadow.
         </p>
       </div>
 

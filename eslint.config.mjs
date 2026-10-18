@@ -12,8 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Build output of the standalone Three.js project (tugas 6).
-    "tugas-6-threejs/dist/**",
   ]),
 ]);
 

@@ -26,29 +26,35 @@ menampilkan informasi scene secara langsung.
 
 ## Cara menjalankan
 
-Butuh Node.js 20.19+ atau 22.12+ (syarat Vite 8).
+Tugas ini bagian dari portal Next.js kelompok, sama seperti Pertemuan 1–5. Dari root repo:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Buka alamat yang dicetak Vite (biasanya <http://localhost:5173>). Untuk build produksi:
-`npm run build`, lalu `npm run preview`.
+Lalu buka <http://localhost:3000/pertemuan/pertemuan-6>.
 
 ## Struktur berkas
 
+Seluruh isi Pertemuan 6 ada di satu folder, `components/praktikum/pertemuan-6/`:
+
 ```
-index.html          canvas + panel HUD
-src/main.js         entry point: resize listener di window, isi HUD
-src/scene.js        seluruh scene: renderer, kamera, lampu, mesh, input, animation loop
-src/style.css       layout layar penuh + HUD
-screenshots/        hasil tangkapan layar
+webgl/scene.js            seluruh scene: renderer, kamera, lampu, mesh, input, animation loop
+ThreeScenePlayground.tsx  canvas, resize lewat ResizeObserver, jembatan ke panel kontrol
+PlaygroundControls.tsx    panel kontrol + HUD
+InfoSection.tsx           catatan konsep dan checklist
+Pertemuan6.tsx            menyusun halaman
+screenshots/              hasil tangkapan layar
 ```
 
-`src/scene.js` sengaja tidak bergantung pada halaman. Ia mengekspor `createMiniScene(canvas,
-options)` yang mengembalikan `{ resize, actions, dispose }`, sehingga file yang sama juga
-dipakai oleh halaman Pertemuan 6 di portal Next.js kelompok ini.
+`webgl/scene.js` sengaja tidak bergantung pada React. Ia mengekspor `createMiniScene(canvas,
+options)` yang mengembalikan `{ resize, actions, dispose }`; komponen React hanya memasang
+canvas dan meneruskan snapshot HUD ke panel.
+
+Padanan berkas yang diminta modul: `index.html` → `ThreeScenePlayground.tsx` (elemen
+`<canvas>`), `src/main.js` → `ThreeScenePlayground.tsx` + `webgl/scene.js`, `src/style.css` →
+utility Tailwind pada komponen.
 
 ## Renderer dan kamera
 
@@ -105,7 +111,7 @@ maksimal 0.05 detik supaya object tidak melompat saat tab kembali aktif.
 
 ## Responsif
 
-`main.js` mendengarkan event `resize` pada `window`, lalu `scene.js` memperbarui ukuran renderer
+`ThreeScenePlayground.tsx` mengamati ukuran canvas lewat `ResizeObserver`, lalu `scene.js` memperbarui ukuran renderer
 (`renderer.setSize`), `camera.aspect`, dan `camera.updateProjectionMatrix()` untuk kedua kamera.
 Di layar potret, FOV vertikal diperlebar sebesar 1/aspect supaya lebar pandang horizontal tidak
 menyempit dan sisi scene tidak terpotong.
@@ -158,26 +164,25 @@ sekali tekan diabaikan saat auto-repeat keyboard.
   `THREE.Clock` sekaligus Console bersih, dan keduanya hanya bisa dipenuhi bersamaan di r182.
 - **`PCFSoftShadowMap` tidak dipakai.** Di r182 tipe ini sudah deprecated dan mencetak peringatan.
   `PCFShadowMap` dengan `shadow.radius` memberi tepi lembut tanpa peringatan.
-- **Favicon.** `index.html` memakai `<link rel="icon" href="data:,">`. Tanpanya browser meminta
-  `/favicon.ico`, mendapat 404, dan Console menampilkan error.
 - **Shadow acne.** Tanpa `shadow.bias`, permukaan yang terkena cahaya bergaris-garis karena
   membandingkan kedalaman dengan dirinya sendiri. `bias` dan `normalBias` kecil menghilangkannya.
 - **Batas kamera shadow.** Kamera shadow bawaan DirectionalLight hanya ±5 unit, sementara object
   dan bayangannya tersebar lebih jauh saat lampu mengorbit dan object digeser. Batasnya dinaikkan
   ke ±8 supaya mencakup area itu, tapi tidak lebih, karena kotak yang terlalu besar membuat setiap
   pixel shadow map menutupi area lebih luas dan bayangan jadi kasar.
-- **Hot reload.** Saat `npm run dev`, Vite memuat ulang modul ketika file disimpan. `main.js`
-  memanggil `dispose()` lewat `import.meta.hot.dispose` agar tidak menumpuk dua animation loop.
-- **Peringatan ukuran chunk saat `npm run build`.** Bundle ±513 kB, hampir seluruhnya library
-  Three.js. Ini peringatan di terminal build, bukan error, dan tidak muncul di Console browser.
+- **Strict Mode dan hot reload.** React memasang, melepas, lalu memasang ulang komponen di mode
+  development. Cleanup effect memanggil `dispose()` agar tidak menumpuk dua animation loop dan
+  dua renderer di canvas yang sama.
 - **Draw calls bisa lebih kecil dari jumlah mesh.** Three.js melakukan frustum culling: mesh di
   luar pandangan kamera tidak digambar. Pada layar sempit draw calls sempat turun dari 9 ke 8.
 
 ## Hasil pengujian
 
-Diuji di Chromium lewat `npm run dev`:
+Diuji di Chromium lewat `npm run dev` (catatan: dua poin terakhir — resize 480×820 dan
+`npm run build` — diuji saat tugas ini masih berupa project Vite tersendiri, sebelum digabung
+ke folder portal):
 
-- Console: 0 error, 0 warning sepanjang pengujian (hanya pesan koneksi Vite).
+- Console: 0 error, 0 warning sepanjang pengujian.
 - Menahan `ArrowRight` 1 detik menggeser object 2.50 unit (sesuai 2.5 unit/detik); `Q` 0.5 detik
   memutar 89–90°; `=` 1 detik memberi scale 1.81×; `-` berhenti di batas 0.40×.
 - `C`, `L`, `G`, `Space`, `O`, dan `R` mengubah HUD sesuai keadaan aplikasi.

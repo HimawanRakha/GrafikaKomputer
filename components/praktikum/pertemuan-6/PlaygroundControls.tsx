@@ -2,7 +2,7 @@
 
 import type { RefObject } from "react";
 import { ControlCard, btnClass, segClass } from "@/components/ui/controls";
-import { SHADOW_QUALITIES } from "@/tugas-6-threejs/src/scene.js";
+import { SHADOW_QUALITIES } from "./webgl/scene.js";
 import type { SceneActions, SceneInfo } from "./ThreeScenePlayground";
 
 export interface PlaygroundControlsProps {

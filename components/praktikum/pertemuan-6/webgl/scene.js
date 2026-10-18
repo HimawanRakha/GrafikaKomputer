@@ -1,7 +1,7 @@
-// Mini 3D scene shared by the standalone Vite app (src/main.js) and the
-// Next.js portal page (components/praktikum/pertemuan-6). Nothing here touches
-// `window` at module top level, because the portal imports this file on the
-// server while prerendering.
+// Mini 3D scene for the Pertemuan 6 portal page, kept free of React so the
+// Three.js part can be read on its own. Nothing here touches `window` at
+// module top level, because the portal imports this file on the server while
+// prerendering.
 //
 // three is pinned to r182 on purpose: from r183 the THREE.Clock constructor
 // logs a deprecation warning, while the assignment requires both THREE.Clock

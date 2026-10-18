@@ -37,11 +37,14 @@ components/
   praktikum/pertemuan-3/    implementasi pertemuan 3
   praktikum/pertemuan-4/    implementasi pertemuan 4
   praktikum/pertemuan-5/    implementasi pertemuan 5
-  praktikum/pertemuan-6/    halaman portal pertemuan 6 (scene dari tugas-6-threejs/)
+  praktikum/pertemuan-6/    implementasi pertemuan 6 (Three.js mini scene)
+  praktikum/pertemuan-7/    implementasi pertemuan 7 (Three.js interactive prototype)
   ui/Section.tsx            kartu bersection judul, dipakai ulang
   ui/controls.tsx           ControlCard & style tombol panel, dipakai ulang
 data/
   praktikum.ts              metadata seluruh pertemuan
+public/
+  praktikum-7/robot.glb     model GLB pertemuan 7 (asset statis harus di public/)
 ```
 
 ## Pola registry
@@ -297,19 +300,18 @@ Screenshot tampilan aplikasi ada di [`docs/pertemuan-4/`](docs/pertemuan-4/).
 
 ### Pertemuan 6 — Three.js Mini Scene
 
-Tugas ini dikumpulkan sebagai project Vite tersendiri di folder
-[`tugas-6-threejs/`](tugas-6-threejs/), karena modul meminta struktur `index.html`, `src/`,
-`package.json`, dan `npm run dev` yang berjalan. Dokumentasi lengkapnya ada di
-[`tugas-6-threejs/README.md`](tugas-6-threejs/README.md).
+Seluruh isi Pertemuan 6 berada di satu folder,
+[`components/praktikum/pertemuan-6/`](components/praktikum/pertemuan-6/), sama seperti
+pertemuan sebelumnya. Scene Three.js-nya ada di `webgl/scene.js` (bebas React, mengekspor
+`createMiniScene(canvas, options)`), dan dokumentasi lengkapnya ada di
+[`components/praktikum/pertemuan-6/README.md`](components/praktikum/pertemuan-6/README.md).
+`three` dipin ke `0.182.0` di `package.json` root; alasannya ada di README tersebut.
 
-```bash
-cd tugas-6-threejs
-npm install
-npm run dev
-```
+### Pertemuan 7 — Three.js Interactive 3D Prototype
 
-Halaman `/pertemuan/pertemuan-6` di portal ini mengimpor **file scene yang sama**
-(`tugas-6-threejs/src/scene.js`) lewat `createMiniScene(canvas, options)`, jadi kode yang
-dikumpulkan dan yang tampil di portal tidak pernah berbeda. Karena CI hanya menjalankan
-`npm ci` di root, `three` juga tercantum di `package.json` root dengan versi yang sama
-(dipin ke `0.182.0`; alasannya ada di README tugas 6).
+Seluruh isi Pertemuan 7 berada di
+[`components/praktikum/pertemuan-7/`](components/praktikum/pertemuan-7/); dokumentasi
+lengkapnya ada di
+[`components/praktikum/pertemuan-7/README.md`](components/praktikum/pertemuan-7/README.md).
+Satu-satunya berkas di luar folder itu adalah model GLB-nya, `public/praktikum-7/robot.glb`,
+karena Next.js hanya menyajikan asset statis dari `public/`.

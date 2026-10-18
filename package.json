@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:model:p7": "node components/praktikum/pertemuan-7/scripts/build-robot-glb.mjs"
   },
   "dependencies": {
     "next": "16.3.4",

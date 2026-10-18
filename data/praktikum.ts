@@ -68,6 +68,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["Three.js", "Scene Graph", "Material Gallery", "Shadow Map", "Orthographic Camera", "Delta Time"],
     status: "available",
   },
+  {
+    slug: "pertemuan-7",
+    pertemuan: 7,
+    judul: "Interactive 3D Prototype",
+    topik: "Three.js Interactive 3D Application — Persiapan UTS",
+    deskripsi: "Scene Three.js berubah menjadi aplikasi interaktif: hierarchy parent-child dengan THREE.Group yang memperlihatkan beda local dan world transform, material PBR dengan preset roughness × metalness dan galeri 3 × 3, robot GLB buatan sendiri dengan tiga animation clip lewat AnimationMixer, serta raycasting untuk hover dan click selection yang dibedakan dari drag OrbitControls. Environment lighting dari RoomEnvironment, information panel, tata surya hierarkis, dan environment toggle melengkapi tujuh challenge.",
+    tags: ["Three.js", "GLB & AnimationMixer", "Raycasting", "PBR", "Scene Hierarchy", "OrbitControls"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {
