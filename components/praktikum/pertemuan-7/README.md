@@ -5,10 +5,10 @@ UTS — Interactive Web 3D Project.
 
 ## Identitas kelompok
 
-| Nama | NRP |
-| --- | --- |
+| Nama                       | NRP        |
+| -------------------------- | ---------- |
 | Frenaldy Bestabba Hasugian | 5025241156 |
-| Himawan Rakha Bhadra | _(NRP menyusul)_ |
+| Himawan Rakha Bhadra       | 5025241028 |
 
 ## Judul dan deskripsi
 
@@ -78,13 +78,13 @@ juga dicetak ke Console: local (1, 0, 0), world (−2.13, 0.80, 0.10).
 
 ## Model GLB
 
-| | |
-| --- | --- |
-| Berkas | `public/praktikum-7/robot.glb` (±100 kB) |
-| Sumber asset | dibuat sendiri: `scripts/build-robot-glb.mjs`, jalankan ulang dengan `npm run build:model:p7` |
-| Hierarchy | 24 node, 16 mesh, kedalaman 5 (Robot → Hips → Torso → Shoulder → Arm → Hand) |
-| Material | 4 `MeshStandardMaterial`: Shell (metalness 0.6), Joint (0.8), Visor (emissive), Accent |
-| Animation clip | `Idle` (2 s, loop), `Walk` (1 s, loop), `Wave` (1.6 s, sekali jalan) |
+|                |                                                                                               |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| Berkas         | `public/praktikum-7/robot.glb` (±100 kB)                                                      |
+| Sumber asset   | dibuat sendiri: `scripts/build-robot-glb.mjs`, jalankan ulang dengan `npm run build:model:p7` |
+| Hierarchy      | 24 node, 16 mesh, kedalaman 5 (Robot → Hips → Torso → Shoulder → Arm → Hand)                  |
+| Material       | 4 `MeshStandardMaterial`: Shell (metalness 0.6), Joint (0.8), Visor (emissive), Accent        |
+| Animation clip | `Idle` (2 s, loop), `Walk` (1 s, loop), `Wave` (1.6 s, sekali jalan)                          |
 
 Modul menyerahkan GLB kepada mahasiswa. Daripada mengunduh asset dengan lisensi tidak jelas,
 robot dibangun dengan Three.js — joint berupa Group kosong di titik pivot sehingga lengan dan
@@ -94,20 +94,20 @@ node, mesh, serta kedalaman hierarchy ke Console dan HUD.
 
 ## PBR material
 
-| Object | Roughness | Metalness |
-| --- | --- | --- |
-| PBR Sphere | preset M: Awal 0.25/0.1, A 0.1/0, B 0.8/0, C 0.1/1, D 0.8/1 | sama |
-| Galeri 3 × 3 | 0.1, 0.5, 0.9 (sepanjang X) | 0, 0.5, 1 (sepanjang Z) |
-| Ground | 0.85 | 0 |
-| Robot | 0.15 – 0.55 | 0.2 – 0.8 |
+| Object       | Roughness                                                   | Metalness               |
+| ------------ | ----------------------------------------------------------- | ----------------------- |
+| PBR Sphere   | preset M: Awal 0.25/0.1, A 0.1/0, B 0.8/0, C 0.1/1, D 0.8/1 | sama                    |
+| Galeri 3 × 3 | 0.1, 0.5, 0.9 (sepanjang X)                                 | 0, 0.5, 1 (sepanjang Z) |
+| Ground       | 0.85                                                        | 0                       |
+| Robot        | 0.15 – 0.55                                                 | 0.2 – 0.8               |
 
 ## Interaction
 
-| | Hover | Click |
-| --- | --- | --- |
-| State | `hoveredObject` | `selectedObject` |
-| Feedback | scale 1.06×, kursor pointer, HUD "Hover" | scale 1.12×, ring biru di ground, rotasi pelan, HUD "Selected", information panel |
-| Prioritas | selected > hovered > normal (satu fungsi `refreshVisual()`) | |
+|           | Hover                                                       | Click                                                                             |
+| --------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| State     | `hoveredObject`                                             | `selectedObject`                                                                  |
+| Feedback  | scale 1.06×, kursor pointer, HUD "Hover"                    | scale 1.12×, ring biru di ground, rotasi pelan, HUD "Selected", information panel |
+| Prioritas | selected > hovered > normal (satu fungsi `refreshVisual()`) |                                                                                   |
 
 Pointer diubah ke NDC dengan `getBoundingClientRect()` canvas (bukan ukuran window, karena
 canvas tidak memenuhi layar), lalu `raycaster.intersectObjects(interactiveObjects, true)`.
@@ -135,28 +135,28 @@ scene tidak melompat. `R` mengembalikan kamera perspective, target, FOV, dan zoo
 
 ## Challenge yang dikerjakan (7)
 
-| Challenge | Implementasi | Tombol |
-| --- | --- | --- |
-| A — Multiple animation clips | Idle / Walk / Wave, crossfade 0,35 s, satu mixer banyak action | `1` `2` `3` |
-| B — Click menjalankan animasi | klik robot → pilih + Wave sekali → kembali ke clip loop | klik |
-| C — Information panel | name, position local & world, rotation, scale, material type | — |
-| D — Hierarchical solar system | Sun → Earth Orbit → Earth → Moon Orbit → Moon | — |
-| E — PBR material gallery | 3 × 3 sphere roughness × metalness | — |
-| G — Selection rotation | object terpilih berputar 0,6 rad/detik, berhenti saat deselect | — |
-| H — Environment toggle | `scene.environment` ON/OFF, status di panel | `E` |
+| Challenge                     | Implementasi                                                   | Tombol      |
+| ----------------------------- | -------------------------------------------------------------- | ----------- |
+| A — Multiple animation clips  | Idle / Walk / Wave, crossfade 0,35 s, satu mixer banyak action | `1` `2` `3` |
+| B — Click menjalankan animasi | klik robot → pilih + Wave sekali → kembali ke clip loop        | klik        |
+| C — Information panel         | name, position local & world, rotation, scale, material type   | —           |
+| D — Hierarchical solar system | Sun → Earth Orbit → Earth → Moon Orbit → Moon                  | —           |
+| E — PBR material gallery      | 3 × 3 sphere roughness × metalness                             | —           |
+| G — Selection rotation        | object terpilih berputar 0,6 rad/detik, berhenti saat deselect | —           |
+| H — Environment toggle        | `scene.environment` ON/OFF, status di panel                    | `E`         |
 
 ## Kontrol
 
-| Input | Fungsi |
-| --- | --- |
-| Drag kiri / kanan, scroll | orbit / pan / zoom |
-| Klik | pilih object (klik area kosong untuk membatalkan) |
-| `1` `2` `3` | clip Idle / Walk / Wave |
-| `E` | environment ON/OFF |
-| `C` | perspective ↔ orthographic |
-| `M` | preset PBR sphere berikutnya |
-| `Esc` | batalkan pilihan |
-| `R` | reset semua |
+| Input                     | Fungsi                                            |
+| ------------------------- | ------------------------------------------------- |
+| Drag kiri / kanan, scroll | orbit / pan / zoom                                |
+| Klik                      | pilih object (klik area kosong untuk membatalkan) |
+| `1` `2` `3`               | clip Idle / Walk / Wave                           |
+| `E`                       | environment ON/OFF                                |
+| `C`                       | perspective ↔ orthographic                        |
+| `M`                       | preset PBR sphere berikutnya                      |
+| `Esc`                     | batalkan pilihan                                  |
+| `R`                       | reset semua                                       |
 
 Shortcut keyboard hanya aktif saat canvas di-hover atau difokus, supaya tidak bentrok dengan
 halaman. Seluruh animasi memakai delta time `THREE.Clock`, dibatasi 0,05 detik.
