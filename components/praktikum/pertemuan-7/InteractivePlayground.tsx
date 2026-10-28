@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { asset } from "@/lib/asset";
 import { createInteractiveScene } from "./webgl/scene.js";
 import PlaygroundControls from "./PlaygroundControls";
 
@@ -39,7 +40,7 @@ export interface SceneInfo {
 export type SceneActions = ReturnType<typeof createInteractiveScene>["actions"];
 
 /** Served from public/praktikum-7/; regenerate with `npm run build:model:p7`. */
-const MODEL_URL = "/praktikum-7/robot.glb";
+const MODEL_URL = asset("/praktikum-7/robot.glb");
 
 export default function InteractivePlayground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

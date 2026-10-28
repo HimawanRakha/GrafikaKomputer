@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Section from "@/components/ui/Section";
+import { asset } from "@/lib/asset";
 import stats from "@/public/praktikum-9/stats.json";
 
 const WORKFLOW: [string, string][] = [
@@ -307,7 +308,7 @@ export default function InfoSection() {
           {SCREENSHOTS.map(([file, caption, submission]) => (
             <figure key={file} className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/40">
               <Image
-                src={`/praktikum-9/${file}`}
+                src={asset(`/praktikum-9/${file}`)}
                 alt={caption}
                 width={1280}
                 height={800}
@@ -367,7 +368,7 @@ export default function InfoSection() {
       <Section title="12 eksperimen wajib" description="Object eksperimen ada di collection Eksperimen, terpisah dari asset utama.">
         <figure className="mb-5 overflow-hidden rounded-xl border border-slate-800">
           <Image
-            src="/praktikum-9/experiments.png"
+            src={asset("/praktikum-9/experiments.png")}
             alt="Object eksperimen 1 sampai 12 berjajar"
             width={1280}
             height={800}

@@ -13,7 +13,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const MAX_PIXEL_RATIO = 2;
-const STAGE_URL = (stage) => `/praktikum-9/stage-${stage}.glb`;
 export const STAGE_COUNT = 5;
 
 /** Object colours from the Blender script (scene-linear, like Blender's object colour). */
@@ -44,9 +43,14 @@ function colorFor(name) {
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {{ onInfo?: (info: object) => void, isInputActive?: () => boolean }} options
+ * @param {{ assetBase?: string, onInfo?: (info: object) => void, isInputActive?: () => boolean }} options
+ *   assetBase: URL prefix of public/praktikum-9 (includes the deploy basePath)
  */
-export function createCrateViewer(canvas, { onInfo = () => {}, isInputActive = () => true } = {}) {
+export function createCrateViewer(
+  canvas,
+  { assetBase = "/praktikum-9", onInfo = () => {}, isInputActive = () => true } = {},
+) {
+  const stageUrl = (stage) => `${assetBase}/stage-${stage}.glb`;
   let disposed = false;
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -210,7 +214,7 @@ export function createCrateViewer(canvas, { onInfo = () => {}, isInputActive = (
     loading = { state: "loading", stage };
     applyDisplay();
     loader.load(
-      STAGE_URL(stage),
+      stageUrl(stage),
       (gltf) => {
         if (disposed) {
           disposeObject(gltf.scene);
@@ -224,7 +228,7 @@ export function createCrateViewer(canvas, { onInfo = () => {}, isInputActive = (
       },
       undefined,
       (error) => {
-        console.error(`[P9] gagal memuat ${STAGE_URL(stage)}`, error);
+        console.error(`[P9] gagal memuat ${stageUrl(stage)}`, error);
         if (currentStage === stage) loading = { state: "error", stage };
       },
     );

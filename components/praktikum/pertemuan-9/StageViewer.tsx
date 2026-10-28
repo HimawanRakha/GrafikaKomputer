@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { asset } from "@/lib/asset";
 import { createCrateViewer } from "./webgl/viewer.js";
 import ViewerControls from "./ViewerControls";
 
@@ -36,6 +37,7 @@ export default function StageViewer() {
     let viewer: ReturnType<typeof createCrateViewer>;
     try {
       viewer = createCrateViewer(canvas, {
+        assetBase: asset("/praktikum-9"),
         onInfo: (next: object) => setInfo(next as ViewerInfo),
         isInputActive,
       });
