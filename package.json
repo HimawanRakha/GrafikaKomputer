@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "build:model:p7": "node components/praktikum/pertemuan-7/scripts/build-robot-glb.mjs"
+    "build:model:p7": "node components/praktikum/pertemuan-7/scripts/build-robot-glb.mjs",
+    "build:blender:p9": "blender -b --factory-startup --python components/praktikum/pertemuan-9/blender/build_scifi_crate.py"
   },
   "dependencies": {
     "next": "16.3.4",

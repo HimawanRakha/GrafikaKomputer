@@ -39,12 +39,14 @@ components/
   praktikum/pertemuan-5/    implementasi pertemuan 5
   praktikum/pertemuan-6/    implementasi pertemuan 6 (Three.js mini scene)
   praktikum/pertemuan-7/    implementasi pertemuan 7 (Three.js interactive prototype)
+  praktikum/pertemuan-9/    implementasi pertemuan 9 (Blender hard-surface asset + viewer)
   ui/Section.tsx            kartu bersection judul, dipakai ulang
   ui/controls.tsx           ControlCard & style tombol panel, dipakai ulang
 data/
   praktikum.ts              metadata seluruh pertemuan
 public/
   praktikum-7/robot.glb     model GLB pertemuan 7 (asset statis harus di public/)
+  praktikum-9/              screenshot, GLB per tahap, dan stats.json pertemuan 9
 ```
 
 ## Pola registry
@@ -315,3 +317,17 @@ lengkapnya ada di
 [`components/praktikum/pertemuan-7/README.md`](components/praktikum/pertemuan-7/README.md).
 Satu-satunya berkas di luar folder itu adalah model GLB-nya, `public/praktikum-7/robot.glb`,
 karena Next.js hanya menyajikan asset statis dari `public/`.
+
+### Pertemuan 9 — Hard-Surface Asset: Sci-Fi Crate (Blender)
+
+Seluruh isi Pertemuan 9 berada di
+[`components/praktikum/pertemuan-9/`](components/praktikum/pertemuan-9/), termasuk file
+`blender/P09_SciFi_Crate.blend` dan script Blender yang membangunnya; dokumentasi lengkap
+(catatan praktikum, eksperimen, challenge, kendala) ada di
+[`components/praktikum/pertemuan-9/README.md`](components/praktikum/pertemuan-9/README.md).
+Screenshot, GLB per tahap, dan `stats.json` berada di `public/praktikum-9/` agar bisa
+disajikan Next.js. Untuk membangun ulang semuanya (butuh Blender 4.2 LTS di PATH):
+
+```bash
+npm run build:blender:p9
+```

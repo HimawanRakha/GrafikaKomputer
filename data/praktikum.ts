@@ -77,6 +77,15 @@ export const praktikumList: PraktikumMeta[] = [
     tags: ["Three.js", "GLB & AnimationMixer", "Raycasting", "PBR", "Scene Hierarchy", "OrbitControls"],
     status: "available",
   },
+  {
+    slug: "pertemuan-9",
+    pertemuan: 9,
+    judul: "Hard-Surface Asset: Sci-Fi Crate",
+    topik: "Blender Fundamental & 3D Modeling",
+    deskripsi: "Awal workflow asset 3D di Blender: Sci-Fi Crate dibangun dari primitive dan blockout, dibentuk di Edit Mode dengan Extrude, Inset, Loop Cut, Bevel, dan Knife, lalu dilengkapi Bevel, Solidify, Mirror, Array, dan Subdivision Surface modifier. Setiap tahap bisa diputar sebagai model 3D lengkap dengan wireframe topology asli, bersama screenshot proses, hasil cleanup, 12 eksperimen wajib, dan tujuh challenge.",
+    tags: ["Blender", "Hard-Surface Modeling", "Extrude & Inset", "Loop Cut & Bevel", "Modifier Stack", "Topology"],
+    status: "available",
+  },
 ];
 
 export function getPraktikumBySlug(slug: string): PraktikumMeta | undefined {

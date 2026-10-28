@@ -1,0 +1,1221 @@
+{
+  "stages": [
+    {
+      "index": 1,
+      "title": "Primitive / Blockout",
+      "notes": "Cube (S X2 Y1.5 Z1.2 lalu Apply Scale), Plane panel samping, cube kecil handle, satu slat, satu foot + 3 duplicate. Belum ada detail.",
+      "parts": [
+        {
+          "name": "Crate_Body",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Side_Panel",
+          "base": {
+            "verts": 4,
+            "edges": 4,
+            "faces": 1,
+            "tris": 0,
+            "quads": 1,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 4,
+            "edges": 4,
+            "faces": 1,
+            "tris": 0,
+            "quads": 1,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Handle",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Vent_Slats",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "title": "Extrude + Inset",
+      "notes": "Panel depan & belakang: Inset 0.18 lalu Extrude ke dalam 0.12. Tutup: Inset 0.2, Extrude naik 0.12, Inset 0.15, Extrude turun 0.06. Handle berbentuk U dari 5 Extrude pada satu cube.",
+      "parts": [
+        {
+          "name": "Crate_Body",
+          "base": {
+            "verts": 40,
+            "edges": 76,
+            "faces": 38,
+            "tris": 0,
+            "quads": 38,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 40,
+            "edges": 76,
+            "faces": 38,
+            "tris": 0,
+            "quads": 38,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Side_Panel",
+          "base": {
+            "verts": 4,
+            "edges": 4,
+            "faces": 1,
+            "tris": 0,
+            "quads": 1,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 4,
+            "edges": 4,
+            "faces": 1,
+            "tris": 0,
+            "quads": 1,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Handle",
+          "base": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Vent_Slats",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "title": "Loop Cut + Bevel",
+      "notes": "Panel samping: Loop Cut 2 garis vertikal, strip tengah di-Inset + Extrude jadi rib, empat sudut dipotong Knife. Body: Bevel 3 segment pada empat sudut tegak.",
+      "parts": [
+        {
+          "name": "Crate_Body",
+          "base": {
+            "verts": 128,
+            "edges": 256,
+            "faces": 130,
+            "tris": 8,
+            "quads": 122,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 128,
+            "edges": 256,
+            "faces": 130,
+            "tris": 8,
+            "quads": 122,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Side_Panel",
+          "base": {
+            "verts": 20,
+            "edges": 30,
+            "faces": 11,
+            "tris": 0,
+            "quads": 9,
+            "ngons": 2
+          },
+          "evaluated": {
+            "verts": 20,
+            "edges": 30,
+            "faces": 11,
+            "tris": 0,
+            "quads": 9,
+            "ngons": 2
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Handle",
+          "base": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Vent_Slats",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "modifiers": [],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "title": "Modifier",
+      "notes": "Bevel (body, handle, foot), Solidify + Mirror (panel samping), Array + Mirror (slat vent), Subdivision Surface (handle). Base mesh tidak berubah \u2014 semuanya masih bisa diedit.",
+      "parts": [
+        {
+          "name": "Crate_Body",
+          "base": {
+            "verts": 128,
+            "edges": 256,
+            "faces": 130,
+            "tris": 8,
+            "quads": 122,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 344,
+            "edges": 688,
+            "faces": 346,
+            "tris": 24,
+            "quads": 311,
+            "ngons": 11
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Side_Panel",
+          "base": {
+            "verts": 20,
+            "edges": 30,
+            "faces": 11,
+            "tris": 0,
+            "quads": 9,
+            "ngons": 2
+          },
+          "evaluated": {
+            "verts": 80,
+            "edges": 144,
+            "faces": 68,
+            "tris": 0,
+            "quads": 60,
+            "ngons": 8
+          },
+          "modifiers": [
+            "Solidify (Solidify)",
+            "Mirror (Mirror)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Handle",
+          "base": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 2338,
+            "edges": 4672,
+            "faces": 2336,
+            "tris": 0,
+            "quads": 2336,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)",
+            "Subsurf (Subdivision)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Vent_Slats",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 96,
+            "edges": 144,
+            "faces": 72,
+            "tris": 0,
+            "quads": 72,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Array (Array)",
+            "Mirror (Mirror)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "title": "Final Asset",
+      "notes": "Merge by Distance + Recalculate Normal pada semua part, scale semua part (1,1,1), hierarchy SciFi_Crate di Outliner.",
+      "parts": [
+        {
+          "name": "Crate_Body",
+          "base": {
+            "verts": 128,
+            "edges": 256,
+            "faces": 130,
+            "tris": 8,
+            "quads": 122,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 344,
+            "edges": 688,
+            "faces": 346,
+            "tris": 24,
+            "quads": 311,
+            "ngons": 11
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Side_Panel",
+          "base": {
+            "verts": 20,
+            "edges": 30,
+            "faces": 11,
+            "tris": 0,
+            "quads": 9,
+            "ngons": 2
+          },
+          "evaluated": {
+            "verts": 80,
+            "edges": 144,
+            "faces": 68,
+            "tris": 0,
+            "quads": 60,
+            "ngons": 8
+          },
+          "modifiers": [
+            "Solidify (Solidify)",
+            "Mirror (Mirror)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Handle",
+          "base": {
+            "verts": 28,
+            "edges": 52,
+            "faces": 26,
+            "tris": 0,
+            "quads": 26,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 2338,
+            "edges": 4672,
+            "faces": 2336,
+            "tris": 0,
+            "quads": 2336,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)",
+            "Subsurf (Subdivision)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Vent_Slats",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 96,
+            "edges": 144,
+            "faces": 72,
+            "tris": 0,
+            "quads": 72,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Array (Array)",
+            "Mirror (Mirror)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_FR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BL",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        },
+        {
+          "name": "Foot_BR",
+          "base": {
+            "verts": 8,
+            "edges": 12,
+            "faces": 6,
+            "tris": 0,
+            "quads": 6,
+            "ngons": 0
+          },
+          "evaluated": {
+            "verts": 56,
+            "edges": 108,
+            "faces": 54,
+            "tris": 0,
+            "quads": 54,
+            "ngons": 0
+          },
+          "modifiers": [
+            "Bevel (Bevel)"
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ]
+    }
+  ],
+  "cleanup": {
+    "Crate_Body": 0,
+    "Side_Panel": 0,
+    "Handle": 0,
+    "Vent_Slats": 0,
+    "Foot_FL": 0,
+    "Foot_FR": 0,
+    "Foot_BL": 0,
+    "Foot_BR": 0
+  },
+  "nonUnitScale": [],
+  "topology": {
+    "Crate_Body": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Side_Panel": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 12
+    },
+    "Handle": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Vent_Slats": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Foot_FL": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Foot_FR": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Foot_BL": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Foot_BR": {
+      "flippedEdges": 0,
+      "nonManifoldEdges": 0
+    }
+  },
+  "exp1": {
+    "A_scale": [
+      2.0,
+      1.0,
+      1.0
+    ],
+    "B_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "exp11": {
+    "before": 16,
+    "after": 8
+  },
+  "exp12": {
+    "inwardBefore": 3,
+    "inwardAfter": 0
+  },
+  "exp3": {
+    "Exp3_Move_G": {
+      "verts": 8,
+      "edges": 12,
+      "faces": 6
+    },
+    "Exp3_Extrude_E": {
+      "verts": 12,
+      "edges": 20,
+      "faces": 10
+    }
+  },
+  "exp4": {
+    "faces": [
+      6,
+      10,
+      14
+    ]
+  },
+  "exp5": {
+    "1": {
+      "verts": 12,
+      "edges": 20,
+      "faces": 10
+    },
+    "3": {
+      "verts": 20,
+      "edges": 36,
+      "faces": 18
+    }
+  },
+  "exp6": {
+    "1": 26,
+    "3": 98,
+    "6": 294
+  },
+  "exp7": {
+    "Exp7_Mirror_then_Bevel": {
+      "faces": 115,
+      "stack": [
+        "MIRROR",
+        "BEVEL"
+      ]
+    },
+    "Exp7_Bevel_then_Mirror": {
+      "faces": 195,
+      "stack": [
+        "BEVEL",
+        "MIRROR"
+      ]
+    }
+  },
+  "exp8": {
+    "duplicate": {
+      "objects": 4,
+      "meshes": 4
+    },
+    "array": {
+      "objects": 1,
+      "count": 4,
+      "faces": 24
+    }
+  },
+  "exp9": {
+    "ByEye": [
+      0.030001,
+      0.02,
+      0.0
+    ],
+    "Snapped": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "exp10": {
+    "movedVertsOff": 1,
+    "movedVertsOn": 109
+  }
+}
